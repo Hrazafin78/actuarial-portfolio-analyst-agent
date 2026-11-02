@@ -1,5 +1,9 @@
 # Secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
 
 # Virtual environments
 .venv/
@@ -18,3 +22,11 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Portefeuile
+/data/**
+!/data/README.md
+/reports/**
+!/reports/README.md
+/tmp/
+.ipynb_checkpoints/

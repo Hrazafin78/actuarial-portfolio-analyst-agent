@@ -1,279 +1,153 @@
-# READ ME : Actuarial Portfolio Analyst Agent
+# Actuarial Portfolio Analyst Agent V2
 
-## 🇫🇷 Français
+**Explorer un portefeuille IARD, fiabiliser les données et documenter les constats actuariels avec un agent IA fondé sur des calculs Python.**
 
-Application d'analyse actuarielle d'un portefeuille d'assurance automobile combinant Python, des méthodes actuarielles et un agent IA basé sur un LLM.
+Ce projet relie un parcours d’analyse actuarielle à une interface conversationnelle :
+préparer un portefeuille, comprendre sa structure et sa sinistralité, approfondir les
+résultats disponibles puis produire une synthèse révisable. Il s’adresse aux actuaires
+et analystes qui souhaitent rapprocher diagnostic de données, exploration statistique
+et restitution dans un même environnement.
 
-L'application permet à l'utilisateur de poser des questions en langage naturel sur un portefeuille d'assurance. L'agent IA interprète la demande, sélectionne l'outil actuariel approprié et restitue des résultats calculés directement à partir des données du portefeuille.
+> Python calcule les indicateurs. L’agent sélectionne les outils, explore les agrégats
+> et formule les commentaires. Les décisions et la validation métier restent humaines.
 
-> **Principe central : le LLM orchestre ; Python calcule.**
+Il s’agit d’un prototype applicatif local, avec tests automatisés. Aucune performance
+métier, économie de temps ou fiabilité des réponses en production n’est revendiquée.
 
-### Aperçu de l'application
+![Interface réelle de l’application : import et navigation](assets/app_screenshot.png)
 
-![Aperçu de l'application](assets/app_screenshot.png)
+## Un parcours actuariel en quatre étapes
 
-### Objectif du projet
+| Espace | Fonctionnalités implémentées | Apport pour l’analyste |
+|---|---|---|
+| Qualité & Nettoyage | Import CSV/XLSX, valeurs manquantes, doublons, types, atypies IQR, alertes statistiques ; corrections choisies et journalisées sur une copie | Examiner les anomalies avant d’interpréter les indicateurs |
+| Analyse descriptive | Distributions, statistiques numériques, associations, indicateurs actuariels par segment et évolutions annuelles selon les données disponibles | Comprendre la composition du risque et les écarts descriptifs |
+| Assistant IA | Questions en français, catalogue des analyses, consultation des statistiques, associations ciblées, sélection et classement de segments | Accéder aux résultats sans naviguer manuellement dans chaque tableau |
+| Rapports IA | Six sections proposées, format synthétique ou complet, édition, preuves chiffrées et export PDF avec graphique disponible | Préparer une restitution structurée et traçable à relire |
 
-L'objectif de ce projet est d'illustrer comment un agent IA peut assister l'analyse d'un portefeuille d'assurance tout en conservant des calculs quantitatifs déterministes et reproductibles.
+Les rôles actuariels sont renseignés manuellement. Selon le mapping, Python calcule
+la fréquence, le coût moyen, la prime pure, le ratio S/P et les primes moyennes.
+Aucun portefeuille spécifique n’est imposé ; les unités, périodes et garanties
+comparées doivent néanmoins être vérifiées par l’utilisateur.
 
-Plutôt que de demander au LLM de calculer lui-même les indicateurs actuariels, l'agent délègue les calculs à des fonctions Python dédiées.
+## Ce que l’agent IA apporte
 
-Exemples de questions prises en charge :
+L’utilisateur exprime une intention d’analyse. L’agent choisit parmi des outils
+explicitement autorisés et interprète leurs résultats. Par exemple, il peut demander
+un classement des segments après application d’un seuil d’exposition, ou rechercher
+l’association d’une paire de variables sans se limiter au classement global.
 
-- Quelle est la fréquence globale de sinistres ?
-- Quelle est la fréquence de sinistres par type de carburant ?
-- Quelles marques de véhicules présentent les fréquences les plus élevées ?
-- Quelle est la fréquence de sinistres des conducteurs de moins de 30 ans ?
-- Le portefeuille présente-t-il des problèmes de qualité des données ?
+Les outils consultent le rapport déjà calculé : ils ne produisent pas de code Python
+libre et ne construisent pas de nouvelles populations de contrats. La rédaction des
+rapports utilise un catalogue distinct de preuves issues des mêmes agrégats. Les
+références comme `[E1, E2]` relient les commentaires aux tableaux Python.
 
-### Fonctionnalités actuelles
-
-- Résumé du portefeuille
-- Calcul de la fréquence de sinistres
-- Analyse de la fréquence par segment
-- Identification des segments à fréquence élevée avec seuil d'exposition minimale
-- Filtrage du portefeuille
-- Contrôles de qualité des données
-- Visualisations interactives avec Plotly
-- Questions actuarielles en langage naturel via un agent IA
-- Interface web Streamlit
-
-## Architecture
-
-L'application sépare volontairement le raisonnement en langage naturel des calculs actuariels.
-
-```text
-Utilisateur
-    │
-    ▼
-Interface Streamlit
-    │
-    ▼
-Agent IA (LLM)
-    │
-    │ Tool Calling
-    ▼
-Outils actuariels Python
-    │
-    ├── Résumé du portefeuille
-    ├── Fréquence de sinistres
-    ├── Analyse par segment
-    ├── Segments à risque
-    ├── Filtrage
-    └── Contrôles de qualité
-    │
-    ▼
-Portefeuille automobile
+```mermaid
+flowchart LR
+    U[Utilisateur] --> S[Interface Streamlit]
+    D[CSV ou XLSX] --> Q[Qualité et nettoyage contrôlé]
+    Q --> P[Moteur statistique et actuariel Python]
+    S --> P
+    P --> A[Rapport d’agrégats en session]
+    A --> T[Outils de consultation]
+    S <--> L[Agent IA conversationnel]
+    L <--> T
+    A --> R[Rédaction IA référencée]
+    R --> V[Édition et validation]
+    V --> PDF[PDF assemblé par Python]
 ```
 
-L'agent IA ne calcule pas directement les indicateurs du portefeuille. Il sélectionne l'outil Python adapté à la question de l'utilisateur. Les calculs sont ensuite réalisés avec Python et pandas avant que le LLM interprète et présente les résultats.
+## Technologies et compétences mobilisées
 
-### Données
+| Domaine | Mise en œuvre |
+|---|---|
+| Actuariat IARD | Exposition, sinistralité, ratios agrégés, comparaisons par segments, lecture critique des faibles effectifs |
+| Python et Data Science | pandas, NumPy, SciPy ; statistiques descriptives, Pearson, V de Cramér corrigé et eta carré |
+| Intégration d’agents IA | SDK OpenAI, Responses API, tool calling, schémas JSON stricts, contexte conversationnel |
+| Application et restitution | Streamlit, Plotly, openpyxl, ReportLab, PDF éditable avant export |
+| Qualité logicielle | pytest, tests Streamlit AppTest, faux clients API, contrôles de non-régression et de cohérence |
 
-Le projet utilise un échantillon de **20 000 contrats** issu du jeu de données public **freMTPL2**, couramment utilisé pour l'étude de la tarification automobile en assurance.
+## Installation et lancement
 
-Le portefeuille contient notamment :
+Prérequis : Python **3.10** pour reproduire l’environnement local vérifié, Git et un
+terminal ouvert à la racine du dépôt. Les versions directes sont fixées dans
+`requirements.txt` ; les dépendances transitives ne sont pas intégralement verrouillées.
 
-- l'exposition au risque ;
-- le nombre de sinistres ;
-- l'âge du conducteur ;
-- l'âge et la puissance du véhicule ;
-- le bonus-malus ;
-- la marque et le type de carburant ;
-- la zone géographique et la région.
-
-Le fichier utilisé par l'application est :
-
-```text
-data/sample_portfolio.csv
-```
-
-Un échantillonnage reproductible est réalisé avec `random_state=42`.
-
-## Installation et utilisation
-
-### 1. Cloner le dépôt
-
-```bash
+```powershell
 git clone https://github.com/Hrazafin78/actuarial-portfolio-analyst-agent.git
 cd actuarial-portfolio-analyst-agent
-```
-
-### 2. Créer un environnement virtuel
-
-Sous Windows :
-
-```bash
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-### 3. Installer les dépendances
+La branche `main` porte la V2 officielle. Le tag `v2.0.0` permet de retrouver
+l’état de cette publication ; le tag `v1.0.0` conserve la première version.
 
-```bash
-pip install -r requirements.txt
+Si `.env` n’existe pas, copier `.env.example` vers `.env`, puis y renseigner
+`OPENAI_API_KEY`. Ne jamais publier la clé. Choisir des modèles accessibles au compte :
+
+```dotenv
+OPENAI_API_KEY=votre_cle_locale
+OPENAI_MODEL_V2=identifiant_du_modele_compatible
+OPENAI_REPORT_MODEL=identifiant_du_modele_compatible
 ```
 
-### 4. Configurer la clé API OpenAI
+Les identifiants ci-dessus sont des emplacements à remplacer, pas des modèles
+exécutables. Le code utilise actuellement `gpt-6-luna` comme repli si les variables
+sont absentes ; sa disponibilité sur le compte doit être vérifiée. Le modèle de
+rapport doit prendre en charge les sorties structurées ; celui de l’assistant, les
+appels de fonctions. Les appels IA nécessitent une connexion et peuvent être facturés.
+Les traitements statistiques locaux ne nécessitent pas de clé.
 
-Créer un fichier `.env` à la racine du projet en utilisant `.env.example` comme modèle :
-
-```text
-OPENAI_API_KEY=your_api_key_here
+```powershell
+.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Le fichier `.env` est exclu du dépôt Git et ne doit jamais être publié.
+Importer ensuite son fichier dans **Qualité & Nettoyage**, puis configurer et lancer
+l’analyse. Les espaces **Assistant IA** et **Rapports IA** utilisent cette analyse.
+Voir le [guide d’utilisation](docs/utilisation.md) pour le mapping et les exports.
 
-### 5. Lancer l'application
+## Exemples de questions
 
-```bash
-python -m streamlit run app.py
+Adapter les noms et modalités aux colonnes effectivement disponibles :
+
+- « Quelles variables et analyses sont disponibles ? »
+- « Donne les statistiques descriptives de `driver_age`. »
+- « Quelle est l’association entre `driver_age` et `vehicle_power` ? »
+- « Classe les cinq régions par fréquence décroissante, avec au moins cent unités d’exposition. »
+- « Compare les modalités diesel et essence de `vehicle_fuel`. »
+- « Quelles évolutions annuelles sont disponibles et quelles limites faut-il signaler ? »
+
+## Validation, limites et évolutions
+
+```powershell
+.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.venv\Scripts\python.exe -m pytest
 ```
 
-L'interface Streamlit est alors accessible depuis le navigateur.
+Les tests vérifient les calculs, les outils, les contrôles de rédaction et PDF ainsi
+que la navigation. Les appels IA y sont simulés : ils ne prouvent pas la qualité des
+réponses d’un modèle réel. Voir [validation et limites](docs/validation.md).
 
-### 6. Lancer les tests
+Le projet ne propose pas encore de tarification GLM, de provisionnement, d’inférence
+causale ou de filtrage conversationnel arbitraire des contrats. Les agrégats sont
+bornés, les durées de génération et le nombre de pages ne sont pas garantis. Il n’y
+a pas de stockage permanent des sessions, d’authentification applicative ni de
+configuration de déploiement multi-utilisateur validée.
 
-```bash
-python -m pytest
-```
+Les perspectives comprennent les segmentations croisées, une évaluation des réponses
+sur des cas actuariels annotés, des restitutions plus riches et un déploiement avec
+gouvernance des données. Ces pistes ne sont pas présentées comme implémentées.
 
-Les tests vérifient notamment les calculs de fréquence, les analyses par segment, les filtres et certains contrôles de qualité des données.
+## Documentation et publication
 
----
+- [Architecture et principaux modules](docs/architecture.md)
+- [Guide d’utilisation et indicateurs](docs/utilisation.md)
+- [Agent IA, outils et rapports](docs/agent-ia.md)
+- [Données, confidentialité et publication](docs/securite.md)
+- [Tests, limites et perspectives](docs/validation.md)
 
-## 🇬🇧 English
-
-An AI-powered application for analyzing a motor insurance portfolio using Python, actuarial methods and an LLM-based agent.
-
-The application allows users to ask questions about an insurance portfolio in natural language. The AI agent interprets the request, selects the appropriate actuarial tool, and returns results computed directly from the portfolio data.
-
-> **Core principle: The LLM orchestrates; Python computes.**
-
-### Project objective
-
-The goal of this project is to demonstrate how AI agents can support actuarial portfolio analysis while keeping quantitative calculations deterministic and reproducible.
-
-Instead of asking the LLM to calculate actuarial indicators itself, the agent delegates calculations to dedicated Python functions.
-
-Examples of supported questions:
-
-- What is the overall claim frequency?
-- What is the claim frequency by fuel type?
-- Which vehicle brands have the highest claim frequency?
-- What is the claim frequency for drivers under 30?
-- Are there any data quality issues in the portfolio?
-
-### Current features
-
-- Portfolio summary
-- Claim frequency calculation
-- Frequency analysis by segment
-- Detection of high-frequency segments with minimum exposure thresholds
-- Portfolio filtering
-- Data quality checks
-- Interactive Plotly visualizations
-- Natural-language actuarial queries through an AI agent
-- Streamlit web interface
-
-## Architecture
-
-The application deliberately separates natural-language reasoning from actuarial calculations.
-
-```text
-User
-  │
-  ▼
-Streamlit Interface
-  │
-  ▼
-AI Agent (LLM)
-  │
-  │ Tool Calling
-  ▼
-Actuarial Python Tools
-  │
-  ├── Portfolio summary
-  ├── Claim frequency
-  ├── Segment analysis
-  ├── Risk segments
-  ├── Portfolio filtering
-  └── Data quality checks
-  │
-  ▼
-Motor Insurance Portfolio
-```
-
-The AI agent does not directly calculate portfolio indicators. It selects the appropriate Python tool according to the user's question. Calculations are performed with Python and pandas before the LLM interprets and presents the results.
-
-### Dataset
-
-The project uses a **20,000-policy sample** from the public **freMTPL2** motor insurance dataset.
-
-The portfolio includes variables such as:
-
-- risk exposure;
-- number of claims;
-- driver age;
-- vehicle age and power;
-- bonus-malus;
-- vehicle brand and fuel type;
-- geographical area and region.
-
-The dataset used by the application is stored in:
-
-```text
-data/sample_portfolio.csv
-```
-
-The sample is reproducible using `random_state=42`.
-
-## Installation and usage
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/Hrazafin78/actuarial-portfolio-analyst-agent.git
-cd actuarial-portfolio-analyst-agent
-```
-
-### 2. Create a virtual environment
-
-On Windows:
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate
-```
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Configure the OpenAI API key
-
-Create a `.env` file at the project root using `.env.example` as a template:
-
-```text
-OPENAI_API_KEY=your_api_key_here
-```
-
-The `.env` file is excluded from Git and must never be committed.
-
-### 5. Run the application
-
-```bash
-python -m streamlit run app.py
-```
-
-The Streamlit interface will then be available in your browser.
-
-### 6. Run the tests
-
-```bash
-python -m pytest
-```
-
-The tests cover claim-frequency calculations, segment analysis, portfolio filtering and selected data-quality checks.
+Les données locales et rapports générés sont exclus des nouveaux ajouts Git par
+`.gitignore`. Cette exclusion ne supprime pas des fichiers déjà suivis ni des secrets
+dans l’historique : consulter les [vérifications avant publication](docs/securite.md).
+La V2 est l’application principale sur `main`. La V1 reste accessible au tag `v1.0.0`.
