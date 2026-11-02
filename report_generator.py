@@ -38,7 +38,7 @@ def build_evidence(report, complete=False):
     for k, v in report['actuarial_overview'].items():
         add('actuarial', k, v)
     cap = 8 if complete else 3
-    # Choix déterministe des agrégats, explicitement borné et traçable.
+    # Choix déterministe des résultats statistiques, explicitement borné et traçable.
     for row in context['numeric_summary']:
         variable = row.get('variable')
         if report['roles'].get(variable) != 'numeric':
@@ -64,7 +64,7 @@ def build_evidence(report, complete=False):
     return {'facts': evidence, 'variables': {k:v for k,v in report['roles'].items() if v != 'identifier'},
             'mapping_roles': [k for k in report['actuarial_mapping'] if k != 'policy_id'],
             'warnings': list(report['warnings']),
-            'limits': 'Extraits bornés du rapport, pas une analyse exhaustive. Parts sur le portefeuille complet. Unités et granularité à confirmer. Une association ne prouve aucune causalité.'}
+            'limits': 'Extraits bornés de l’analyse, pas une analyse exhaustive. Parts sur le portefeuille complet. Unités et granularité à confirmer. Une association ne prouve aucune causalité.'}
 
 
 def fingerprint(evidence):
@@ -254,7 +254,7 @@ def export_pdf(document, charts=True):
     styles['Heading1'].textColor = colors.HexColor('#173f5f')
     styles['Heading2'].textColor = colors.HexColor('#245b82')
     flow = [Paragraph('Rapport actuariel - Analyse descriptive V2', styles['Title']),
-            Paragraph('Rédaction assistée par IA - validation métier requise. Source : agrégats Python du rapport courant.', styles['BodyText']), Spacer(1, 14)]
+            Paragraph('Rédaction assistée par IA - validation métier requise. Source : résultats statistiques Python de l’analyse courante.', styles['BodyText']), Spacer(1, 14)]
     for index, (section, text) in enumerate(document['texts'].items()):
         if index and (document['complete'] or index % 2 == 0):
             flow.append(PageBreak())

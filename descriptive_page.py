@@ -302,7 +302,7 @@ def _view_actuarial(report: dict) -> None:
 
 
 def _view_time(report: dict) -> None:
-    """Présente les agrégats annuels disponibles pour la variable temporelle choisie."""
+    """Présente les résultats statistiques annuels disponibles pour la variable temporelle choisie."""
     frames = report["temporal"]
     if not frames:
         st.info("Aucune colonne temporelle exploitable. Vous pouvez modifier son rôle avant l'analyse.")
@@ -438,7 +438,7 @@ def render_descriptive_page() -> None:
                 st.write("•", warning)
         else:
             st.success("Aucun avertissement particulier.")
-        st.markdown("#### Exporter les tableaux et agrégats")
+        st.markdown("#### Exporter les tableaux et résultats statistiques")
         st.download_button(
             "Télécharger les résultats (ZIP de CSV)",
             data=_csv_export_bundle(report),
@@ -450,5 +450,5 @@ def render_descriptive_page() -> None:
             data=json.dumps(build_llm_context(report), ensure_ascii=False, indent=2, allow_nan=False),
             file_name="analyse_descriptive_synthese.json", mime="application/json",
         )
-        st.caption("Cette synthèse contient les agrégats utilisables par l’IA, pas un rapport rédigé. "
+        st.caption("Cette synthèse contient les résultats statistiques utilisables par l’IA, pas un rapport rédigé. "
                    "Aucune donnée individuelle brute n'est envoyée à un LLM.")

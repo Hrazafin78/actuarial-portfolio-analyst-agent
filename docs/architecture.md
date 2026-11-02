@@ -5,7 +5,7 @@
 ## Séparation des responsabilités
 
 L’interface ne délègue aucun calcul de sinistralité au modèle. Les fonctions Python
-produisent un dictionnaire de résultats contenant des DataFrames agrégés, des
+produisent un dictionnaire de résultats contenant des DataFrames de synthèse, des
 indicateurs, le mapping et les avertissements. Le modèle ne dispose pas d’un accès
 général à pandas, au système de fichiers ou aux contrats individuels par ses outils.
 
@@ -17,7 +17,7 @@ général à pandas, au système de fichiers ou aux contrats individuels par ses
 | `quality_checker.py` | `generate_quality_report()` : structure, manquants, doublons, types, IQR et alertes statistiques |
 | `data_cleaner.py` | `suggest_cleaning_actions()`, `apply_cleaning_actions()`, `generate_cleaning_report()` |
 | `descriptive_analyzer.py` | Rôles, validation du mapping, distributions, associations, segments, temporalité, `generate_descriptive_report()` et `build_llm_context()` |
-| `descriptive_page.py` | Configuration, exploration des agrégats et exploration détaillée de paires calculée localement |
+| `descriptive_page.py` | Configuration, exploration des résultats statistiques et exploration détaillée de paires calculée localement |
 | `agent_tools_v2.py` | Schémas des outils et routeur autorisé `execute_tool_v2()` |
 | `agent_v2.py` | `ask_agent_v2()` : client Responses API et boucle d’appels d’outils |
 | `agent_page.py` | Affichage du chat et gestion de son historique |
@@ -40,9 +40,9 @@ flowchart TD
     C -->|Non| O
     O --> S[Choix de la source et mapping manuel]
     N --> S
-    S --> A[Rapport descriptif Python]
+    S --> A[Résultats de l’analyse Python]
     A --> E[Exploration locale et exports]
-    A --> B[Contexte agrégé borné]
+    A --> B[Contexte statistique borné]
     B --> L[API du modèle]
     L --> T[Outils autorisés ou rédaction référencée]
 ```

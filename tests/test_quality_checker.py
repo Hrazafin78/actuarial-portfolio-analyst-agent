@@ -1,6 +1,6 @@
 """Tests du diagnostic de qualité sur de petits DataFrames contrôlés.
 
-Vérifie les sections du rapport, les anomalies attendues et les cas limites,
+Vérifie les sections du diagnostic, les anomalies attendues et les cas limites,
 sans correction des données ni accès réseau.
 """
 

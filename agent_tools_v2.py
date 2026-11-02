@@ -1,7 +1,7 @@
-"""Outils autorisés de consultation du rapport descriptif.
+"""Outils autorisés de consultation des résultats de l’analyse descriptive.
 
 Déclare les schémas de tool calling et contrôle la sélection, le tri et la
-pagination des agrégats. N’expose ni lignes individuelles ni exécution de code.
+pagination des résultats statistiques. N’expose ni lignes individuelles ni exécution de code.
 """
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from descriptive_analyzer import build_llm_context
 
 
 def _clean(value: Any) -> Any:
-    """Transforme les agrégats pandas/numpy en objets JSON compatibles."""
+    """Transforme les résultats statistiques pandas/numpy en objets JSON compatibles."""
     if isinstance(value, dict):
         return {str(k): _clean(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -34,7 +34,7 @@ def _clean(value: Any) -> Any:
 
 
 def _rows(table: pd.DataFrame, *, limit: int = 100, offset: int = 0) -> dict:
-    """Retourne une page d’agrégats avec colonnes, effectif total et position suivante.
+    """Retourne une page de résultats statistiques avec colonnes, effectif total et position suivante.
 
     Valide une taille comprise entre une et cent lignes et un décalage positif ou nul.
     """
@@ -174,7 +174,7 @@ def _select_groups(table: pd.DataFrame, args: dict) -> pd.DataFrame:
 
 
 def execute_tool_v2(report: dict, name: str, args: dict) -> dict:
-    """Routeur en liste blanche : accès aux seuls agrégats du rapport V2."""
+    """Routeur en liste blanche : accès aux seuls résultats statistiques de l’analyse V2."""
     if not isinstance(args, dict):
         raise ValueError("Les arguments doivent être un objet JSON")
     if name == "list_available_analyses":
@@ -184,7 +184,7 @@ def execute_tool_v2(report: dict, name: str, args: dict) -> dict:
             "temporal": {v: list(t.columns) for v, t in report["temporal"].items()},
             "warnings": report["warnings"],
             "association_skipped": report["associations"]["skipped"],
-            "limits": ["Agrégats du rapport courant uniquement ; aucun filtre sur les lignes brutes ni nouvelle segmentation.",
+            "limits": ["Résultats statistiques de l’analyse courante uniquement ; aucun filtre sur les lignes brutes ni nouvelle segmentation.",
                        "Les distributions catégorielles sont limitées au top configuré ; Autres peut regrouper les modalités restantes.",
                        "Les parts sont celles du portefeuille complet, même après filtrage des segments.",
                        "Les associations excluent les variables du mapping actuariel et ne démontrent pas de causalité."],
@@ -231,7 +231,7 @@ def execute_tool_v2(report: dict, name: str, args: dict) -> dict:
         result = {"variable": variable, "role": role, "statistics": _rows(stats)}
         if variable in report["category_distributions"]:
             result["distribution"] = _rows(report["category_distributions"][variable], **_page(args))
-            result["distribution_note"] = "Top des modalités du rapport ; les modalités restantes peuvent être regroupées dans Autres. La pagination ne récupère pas leurs détails."
+            result["distribution_note"] = "Top des modalités de l’analyse ; les modalités restantes peuvent être regroupées dans Autres. La pagination ne récupère pas leurs détails."
         return result
 
     source = report["segments"] if name == "get_segment_analysis" else report["temporal"]
@@ -241,4 +241,4 @@ def execute_tool_v2(report: dict, name: str, args: dict) -> dict:
     selected = _select_groups(table, args)
     return {"variable": variable, **_rows(selected, **_page(args)), "source_rows": len(table),
             "selection": _clean(args),
-            "note": "Parts calculées sur le portefeuille complet ; taux non définis renvoyés à null. Les tranches numériques sont celles du rapport."}
+            "note": "Parts calculées sur le portefeuille complet ; taux non définis renvoyés à null. Les tranches numériques sont celles de l’analyse."}

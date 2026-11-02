@@ -1,6 +1,6 @@
 """Tests des outils et de la boucle conversationnelle de l’agent.
 
-Utilise des agrégats contrôlés et un faux client Responses API pour vérifier
+Utilise des résultats statistiques contrôlés et un faux client Responses API pour vérifier
 les appels multiples et la continuité de conversation, sans requête réseau.
 """
 
@@ -25,7 +25,7 @@ from descriptive_analyzer import generate_descriptive_report
 
 
 def _sample_report():
-    """Construit un rapport agrégé de référence pour les appels d’outils simulés."""
+    """Construit des résultats statistiques de référence pour les appels d’outils simulés."""
     frame = pd.DataFrame({
         "id": ["P1", "P2", "P3", "P4"],
         "year": [2003, 2003, 2004, 2004],

@@ -1,7 +1,7 @@
 """Moteur statistique et actuariel des portefeuilles IARD.
 
 Valide le mapping manuel, calcule statistiques, ratios, associations et
-agrégats par segment ou année. Construit un contexte IA borné, sans appeler
+résultats statistiques par segment ou année. Construit un contexte IA borné, sans appeler
 de modèle ni modifier le portefeuille fourni.
 """
 from __future__ import annotations
@@ -281,7 +281,7 @@ def _summarize_groups(
     method: str,
 ) -> pd.DataFrame:
     # Groupe '(Manquant)' explicite, sans conversion des données originales.
-    """Agrège effectifs, mesures et ratios par groupe, avec une modalité pour les manquants.
+    """Regroupe effectifs, mesures et ratios par groupe, avec une modalité pour les manquants.
 
     Les parts sont calculées sur le portefeuille fourni ; les dénominateurs
     non positifs donnent des ratios manquants, sans modifier les données sources.
@@ -365,7 +365,7 @@ def _time_years(series: pd.Series) -> pd.Series:
 def analyze_temporal_variables(
     df: pd.DataFrame, roles: Mapping[str, str], actuarial_mapping: Mapping[str, str],
 ) -> tuple[dict[str, pd.DataFrame], list[str]]:
-    """Retourne les agrégats annuels et avertissements des variables temporelles disponibles."""
+    """Retourne les résultats statistiques annuels et avertissements des variables temporelles disponibles."""
     temporal = [c for c, role in roles.items() if role == "temporal"]
     if "year" in actuarial_mapping and actuarial_mapping["year"] not in temporal:
         temporal.append(actuarial_mapping["year"])
@@ -568,7 +568,7 @@ def generate_descriptive_report(
 ) -> dict[str, Any]:
     """Analyse complète, sans muter la base et sans appeler un modèle IA.
 
-    Retourne un dictionnaire contenant seulement des agrégats, des statistiques
+    Retourne un dictionnaire contenant seulement des résultats statistiques
     et des DataFrames de résultats (aucune copie du portefeuille brut).
     """
     _check_df(df)
@@ -620,10 +620,10 @@ def generate_descriptive_report(
 
 
 def build_llm_context(report: Mapping[str, Any], max_items: int = 15) -> dict[str, Any]:
-    """Prépare un contexte agrégé borné pour le modèle, sans lignes individuelles.
+    """Prépare un contexte de résultats statistiques borné pour le modèle, sans lignes individuelles.
 
     Limite les résumés et exemples au nombre demandé. Un contexte compact
-    ne représente pas une consultation exhaustive du rapport.
+    ne représente pas une consultation exhaustive de l’analyse.
     """
     if max_items < 1:
         raise ValueError("max_items doit être positif")
@@ -632,7 +632,7 @@ def build_llm_context(report: Mapping[str, Any], max_items: int = 15) -> dict[st
     top = associations.head(max_items).replace([np.inf, -np.inf], np.nan)
 
     def records(frame: pd.DataFrame) -> list[dict[str, Any]]:
-        """Borne un tableau d’agrégats et remplace les valeurs non finies pour le JSON."""
+        """Borne un tableau de résultats statistiques et remplace les valeurs non finies pour le JSON."""
         clean = frame.head(max_items).replace([np.inf, -np.inf], np.nan).astype(object)
         clean = clean.where(pd.notna(clean), None)
         return [

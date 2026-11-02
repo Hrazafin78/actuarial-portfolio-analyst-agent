@@ -16,7 +16,7 @@ _KEEP = "keep"
 
 
 def _records(value: Any) -> list[dict[str, Any]]:
-    """Normalise une section du rapport qui contient des enregistrements."""
+    """Normalise une section du diagnostic qui contient des enregistrements."""
     if isinstance(value, pd.DataFrame):
         return value.to_dict(orient="records")
     if isinstance(value, list):
@@ -159,7 +159,7 @@ def suggest_cleaning_actions(
     for item in _records(quality_report.get("outliers")):
         count = item.get("outlier_count", item.get("n_outliers"))
         if count is None:
-            # Compatibilité avec un rapport plus ancien ne fournissant qu'un diagnostic.
+            # Compatibilité avec un diagnostic plus ancien ne fournissant qu'un diagnostic.
             if not item.get("issue"):
                 continue
             label = str(item.get("variable") or item["issue"])
@@ -170,7 +170,7 @@ def suggest_cleaning_actions(
         examine("outliers", label, item)
 
     for item in _records(quality_report.get("statistical_issues")):
-        # Rapport réel : une ligne par variable, y compris lorsqu'issues == [].
+        # Diagnostic réel : une ligne par variable, y compris lorsqu'issues == [].
         issues = item.get("issues")
         if issues is not None:
             if not issues:

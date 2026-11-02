@@ -9,12 +9,12 @@
 | Fichier CSV/XLSX importé | Lu en mémoire par pandas ; pas de sauvegarde automatique par l’import interactif |
 | Données individuelles | Non exposées par les outils conversationnels ni par le catalogue de rédaction |
 | Statistiques et noms de variables | Peuvent être envoyés à l’API du modèle |
-| Libellés de modalités et de segments | Peuvent être envoyés avec leurs agrégats |
+| Libellés de modalités et de segments | Peuvent être envoyés avec leurs résultats statistiques |
 | Questions de l’utilisateur et brouillons à corriger | Envoyés à l’API pour la conversation ou la rédaction |
 | Conversation | Chaîne Responses API suivie via `previous_response_id` ; historique visible en session |
 | Exports téléchargés | Conservés par l’utilisateur à l’emplacement choisi |
 
-**Agrégé ne signifie pas anonyme.** Une modalité rare, un nom de variable ou un segment
+**Un résultat statistique n’est pas nécessairement anonyme.** Une modalité rare, un nom de variable ou un segment
 à faible effectif peut révéler une information. L’identification correcte des colonnes
 `identifier` est nécessaire. Le projet ne met en œuvre ni anonymisation formelle,
 ni seuil général de confidentialité, ni confidentialité différentielle. Ne pas

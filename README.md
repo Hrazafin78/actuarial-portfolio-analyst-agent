@@ -8,7 +8,7 @@ résultats disponibles puis produire une synthèse révisable. Il s’adresse au
 et analystes qui souhaitent rapprocher diagnostic de données, exploration statistique
 et restitution dans un même environnement.
 
-> Python calcule les indicateurs. L’agent sélectionne les outils, explore les agrégats
+> Python calcule les indicateurs. L’agent sélectionne les outils, explore les résultats statistiques
 > et formule les commentaires. Les décisions et la validation métier restent humaines.
 
 Il s’agit d’un prototype applicatif local, avec tests automatisés. Aucune performance
@@ -37,9 +37,9 @@ explicitement autorisés et interprète leurs résultats. Par exemple, il peut d
 un classement des segments après application d’un seuil d’exposition, ou rechercher
 l’association d’une paire de variables sans se limiter au classement global.
 
-Les outils consultent le rapport déjà calculé : ils ne produisent pas de code Python
+Les outils consultent les résultats déjà calculés : ils ne produisent pas de code Python
 libre et ne construisent pas de nouvelles populations de contrats. La rédaction des
-rapports utilise un catalogue distinct de preuves issues des mêmes agrégats. Les
+rapports utilise un catalogue distinct de preuves issues des mêmes résultats statistiques. Les
 références comme `[E1, E2]` relient les commentaires aux tableaux Python.
 
 ```mermaid
@@ -48,7 +48,7 @@ flowchart LR
     D[CSV ou XLSX] --> Q[Qualité et nettoyage contrôlé]
     Q --> P[Moteur statistique et actuariel Python]
     S --> P
-    P --> A[Rapport d’agrégats en session]
+    P --> A[Résultats statistiques en session]
     A --> T[Outils de consultation]
     S <--> L[Agent IA conversationnel]
     L <--> T
@@ -61,7 +61,7 @@ flowchart LR
 
 | Domaine | Mise en œuvre |
 |---|---|
-| Actuariat IARD | Exposition, sinistralité, ratios agrégés, comparaisons par segments, lecture critique des faibles effectifs |
+| Actuariat IARD | Exposition, sinistralité, ratios de synthèse, comparaisons par segments, lecture critique des faibles effectifs |
 | Python et Data Science | pandas, NumPy, SciPy ; statistiques descriptives, Pearson, V de Cramér corrigé et eta carré |
 | Intégration d’agents IA | SDK OpenAI, Responses API, tool calling, schémas JSON stricts, contexte conversationnel |
 | Application et restitution | Streamlit, Plotly, openpyxl, ReportLab, PDF éditable avant export |
@@ -130,7 +130,7 @@ que la navigation. Les appels IA y sont simulés : ils ne prouvent pas la qualit
 réponses d’un modèle réel. Voir [validation et limites](docs/validation.md).
 
 Le projet ne propose pas encore de tarification GLM, de provisionnement, d’inférence
-causale ou de filtrage conversationnel arbitraire des contrats. Les agrégats sont
+causale ou de filtrage conversationnel arbitraire des contrats. Les résultats statistiques sont
 bornés, les durées de génération et le nombre de pages ne sont pas garantis. Il n’y
 a pas de stockage permanent des sessions, d’authentification applicative ni de
 configuration de déploiement multi-utilisateur validée.
@@ -147,7 +147,7 @@ gouvernance des données. Ces pistes ne sont pas présentées comme implémenté
 - [Données, confidentialité et publication](docs/securite.md)
 - [Tests, limites et perspectives](docs/validation.md)
 
-Les données locales et rapports générés sont exclus des nouveaux ajouts Git par
+Les données locales, diagnostics enregistrés et rapports IA générés sont exclus des nouveaux ajouts Git par
 `.gitignore`. Cette exclusion ne supprime pas des fichiers déjà suivis ni des secrets
 dans l’historique : consulter les [vérifications avant publication](docs/securite.md).
 La V2 est l’application principale sur `main`. La V1 reste accessible au tag `v1.0.0`.

@@ -15,7 +15,7 @@ from report_generator import build_evidence, generate_report, validate_text, exp
 
 
 def sample():
-    """Construit un rapport contrôlé incluant des identifiants à exclure du contexte IA."""
+    """Construit une analyse contrôlée incluant des identifiants à exclure du contexte IA."""
     return generate_descriptive_report(pd.DataFrame({'id':['SECRET_A','SECRET_B','SECRET_C','SECRET_D'], 'fuel':['A','B','A','B'], 'age':[20,30,40,50], 'expo':[1.,1.,1.,1.], 'claims':[0,1,0,2]}), roles={'id':'identifier','fuel':'categorical','age':'numeric'}, actuarial_mapping={'policy_id':'id','exposure':'expo','claim_count':'claims'})
 
 

@@ -200,7 +200,7 @@ def _review_table(records: list[dict]) -> pd.DataFrame:
                 if pct is None:
                     suffix = ""
                 elif pct == 0 and int(details["outlier_count"]) > 0:
-                    suffix = " (< 0,01 %)"  # pourcentage arrondi à zéro par le rapport qualité
+                    suffix = " (< 0,01 %)"  # pourcentage arrondi à zéro par le diagnostic qualité
                 else:
                     suffix = f" ({str(pct).replace('.', ',')} %)"
                 diagnostic = f"{count} valeur(s) atypique(s){suffix} — critère IQR"

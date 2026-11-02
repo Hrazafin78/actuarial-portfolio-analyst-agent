@@ -1,7 +1,7 @@
-"""Tests de consultation ciblée des agrégats descriptifs.
+"""Tests de consultation ciblée des résultats statistiques descriptifs.
 
 Vérifie catalogue, associations, seuils, tri avant pagination et limites
-des distributions, sans modifier le rapport ni appeler l’API.
+des distributions, sans modifier les résultats ni appeler l’API.
 """
 import json
 
@@ -14,7 +14,7 @@ from descriptive_analyzer import generate_descriptive_report
 
 @pytest.fixture
 def report():
-    """Construit un rapport contrôlé avec associations et segments comparables."""
+    """Construit une analyse contrôlée avec associations et segments comparables."""
     return generate_descriptive_report(
         pd.DataFrame({
             "age": [20, 30, 40, 50, 60, 70],

@@ -16,7 +16,7 @@ def render_report_page(report, signature):
     préparé que s’il correspond encore au texte courant validé.
     """
     st.subheader('Créer et consulter un rapport')
-    st.caption('Les chiffres proviennent du rapport Python. Relisez les interprétations avant diffusion. Les longueurs sont indicatives et dépendent des sections et résultats disponibles.')
+    st.caption('Les chiffres proviennent de l’analyse Python. Relisez les interprétations avant diffusion. Les longueurs sont indicatives et dépendent des sections et résultats disponibles.')
     if st.session_state.get('report_ai_signature') != signature:
         for key in list(st.session_state):
             if key.startswith('report_ai_'):

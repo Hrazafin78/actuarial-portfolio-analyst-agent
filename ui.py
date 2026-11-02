@@ -23,7 +23,7 @@ def preserve_controls():
 
 
 def active_analysis():
-    """Renvoie le rapport et sa signature seulement si source et configuration correspondent.
+    """Renvoie les résultats et leur signature seulement si source et configuration correspondent.
 
     Une analyse absente ou obsolète renvoie (None, None) ; les identités de
     source sont locales à la session, sans empreinte persistante du portefeuille.

@@ -28,13 +28,13 @@ def reset_agent_chat() -> None:
 def render_agent_page(report: dict | None = None, signature: object = None) -> None:
     """Affiche l'assistant IA sur la configuration descriptive courante.
 
-    Un rapport doit avoir été validé et calculé dans descriptive_page.py.
-    Le token de configuration évite de réutiliser le chat d'un ancien rapport.
+    Une analyse doit avoir été validée et calculée dans descriptive_page.py.
+    Le token de configuration évite de réutiliser le chat d'une ancienne analyse.
     """
     st.subheader("Conversation sur le portefeuille")
     st.caption(
         "Posez vos questions en langage naturel sur les résultats de l'analyse. "
-        "Les calculs viennent du moteur Python ; l'IA interprète des agrégats."
+        "Les calculs viennent du moteur Python ; l'IA interprète des résultats statistiques."
     )
     with st.expander("Exemples de questions d'exploration"):
         st.markdown(
@@ -47,8 +47,8 @@ def render_agent_page(report: dict | None = None, signature: object = None) -> N
             "- Compare les résultats des années disponibles."
         )
         st.caption(
-            "Utilisez les noms de vos variables. L'assistant consulte les agrégats "
-            "du rapport courant : les tranches existantes et les limites du rapport "
+            "Utilisez les noms de vos variables. L'assistant consulte les résultats statistiques "
+            "de l’analyse courante : les tranches existantes et les limites de l’analyse "
             "s'appliquent aussi à ses réponses."
         )
 

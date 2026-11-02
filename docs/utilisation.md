@@ -46,7 +46,7 @@ et ne sont pas interdits de manière générale par ce validateur.
 
 ## Indicateurs calculés
 
-Les ratios sont des rapports de sommes sur la population analysée, pas des moyennes
+Les ratios sont des quotients de sommes sur la population analysée, pas des moyennes
 non pondérées de ratios individuels.
 
 | Indicateur | Formule | Champs nécessaires |
@@ -83,7 +83,7 @@ ni une analyse de développement de sinistres, ni un retraitement de l’inflati
 
 ## Assistant, rapports et exports
 
-Ouvrir **Assistant IA** après le calcul pour poser des questions sur les agrégats.
+Ouvrir **Assistant IA** après le calcul pour poser des questions sur les résultats statistiques.
 Le filtrage de segments ne filtre pas à nouveau les contrats. Les parts renvoyées
 restent celles du portefeuille complet. Une modalité incluse dans « Autres » ne
 peut pas être récupérée en détail par simple pagination.
@@ -97,4 +97,4 @@ sont des objectifs indicatifs dépendant du contenu.
 
 Les exports descriptifs comprennent un ZIP de tableaux CSV et une synthèse JSON.
 Les fichiers téléchargés sont sous la responsabilité de l’utilisateur et peuvent
-contenir des informations sensibles même lorsqu’ils sont agrégés.
+contenir des informations sensibles même lorsqu’ils sont statistiques.

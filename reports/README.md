@@ -1,4 +1,4 @@
-# Rapports locaux
+# Diagnostics de qualité locaux
 
 Les fichiers JSON présents sont des résultats locaux conservés, pas des exemples
 publics ni des résultats de référence. `validate_quality.py` écrit ici

@@ -14,14 +14,14 @@ sequenceDiagram
     participant S as Streamlit
     participant L as Modèle via Responses API
     participant T as Routeur Python
-    participant A as Agrégats en session
+    participant A as Résultats statistiques en session
     U->>S: Question sur le portefeuille
     S->>L: Question et contexte initial ou identifiant précédent
     L-->>S: function_call et arguments JSON
     S->>T: execute_tool_v2
     T->>A: Sélection, tri, pagination
     A-->>T: Résultats calculés
-    T-->>S: Agrégats sérialisables ou erreur
+    T-->>S: Résultats statistiques sérialisables ou erreur
     S->>L: function_call_output
     L-->>S: Texte ou nouvelle demande d’outil
     S-->>U: Réponse finale
@@ -50,7 +50,7 @@ il ne remplace pas une consultation ciblée des outils.
 
 ## Rapports : une chaîne distincte
 
-Le générateur réutilise les agrégats descriptifs et `build_llm_context()`, mais ne
+Le générateur réutilise les résultats statistiques descriptifs et `build_llm_context()`, mais ne
 lance pas la boucle conversationnelle de tool calling. `build_evidence()` construit
 un catalogue borné de faits identifiés par `E1`, `E2`, etc. Il inclut des indicateurs,
 extraits de distributions, segments, associations et résultats annuels. La

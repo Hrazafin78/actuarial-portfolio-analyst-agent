@@ -1,7 +1,7 @@
 """Validation manuelle du moteur qualité sur le portefeuille local.
 
 Lit le CSV et la clé métier configurés dans ce script, vérifie les sections
-du diagnostic et écrit un rapport JSON. Indépendant de l’interface Streamlit
+du diagnostic et écrit un diagnostic JSON. Indépendant de l’interface Streamlit
 et volontairement adapté à la configuration locale, sans appel IA.
 """
 
@@ -52,7 +52,7 @@ def main():
         "statistical_issues",
     ]
 
-    print("\n--- Sections du rapport ---")
+    print("\n--- Sections du diagnostic ---")
     missing_sections = []
 
     for section in expected_sections:
@@ -68,7 +68,7 @@ def main():
 
     elapsed = time.perf_counter() - start
 
-    print(f"\nRapport sauvegardé : {OUTPUT_PATH}")
+    print(f"\nDiagnostic sauvegardé : {OUTPUT_PATH}")
     print(f"Durée : {elapsed:.2f} secondes")
 
     if missing_sections:

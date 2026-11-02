@@ -23,7 +23,7 @@ compatibilité ou une installation propre testée sur plusieurs systèmes.
 | `test_quality_checker.py` | Structure, manquants, doublons, types, IQR, cohérence et cas limites |
 | `test_data_cleaner.py` | Actions sélectionnées, absence de modification de l’original, journaux et alertes |
 | `test_descriptive_analyzer.py` | Rôles, mapping, indicateurs, segments, associations, temporalité et contexte JSON |
-| `test_agent_v2.py` | Outils sur agrégats et chaîne simulée d’appels multiples |
+| `test_agent_v2.py` | Outils sur résultats statistiques et chaîne simulée d’appels multiples |
 | `test_agent_exploration_v2.py` | Paire d’associations, sélection, tri avant pagination et seuils invalides |
 | `test_agent_page_v2.py` | Réinitialisation de conversation lors d’un changement d’analyse |
 | `test_report_generator.py` | Exclusion d’identifiants, validation, corrections bornées, citations et structure PDF |
@@ -45,14 +45,14 @@ Sa durée affichée n’est pas un benchmark publié et aucune performance n’e
 
 ## Limites actuelles
 
-- Analyse descriptive et ratios agrégés : pas de GLM de fréquence/coût, de tarification
+- Analyse descriptive et ratios de synthèse : pas de GLM de fréquence/coût, de tarification
   technique complète, de provisionnement ou de modélisation prédictive intégrée.
 - Associations descriptives sans contrôle automatique des facteurs de confusion,
   sans démonstration causale ni correction générale des comparaisons multiples.
 - Pas d’intervalles de confiance actuariels systématiques ; les petits segments
   peuvent produire des taux instables malgré les seuils d’affichage.
 - Temporalité annuelle ; aucune prévision ni correction automatique d’inflation.
-- Consultation IA d’agrégats existants : pas de filtres arbitraires sur les contrats,
+- Consultation IA de résultats statistiques existants : pas de filtres arbitraires sur les contrats,
   de nouvelles tranches personnalisées ou de segmentations croisées créées par le chat.
 - Distributions et contexte bornés ; pagination des résultats disponibles, sans
   reconstitution des modalités déjà regroupées.
